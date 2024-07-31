@@ -40,7 +40,7 @@ class Wp_Employee_Management_System {
             'employee-system', 
             array( $this,'ems_crud_system_callback'),
             'dashicons-networking',
-            1,
+            4,
         );
 
         // sub menus
