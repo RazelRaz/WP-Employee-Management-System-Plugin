@@ -13,10 +13,18 @@ if ( ! defined('ABSPATH') ) {
     exit;
 }
 
+// http://wpplugin.test/wp-content/plugins/wp-employee-management-system/
+// echo plugin_dir_url(__FILE__);
+
+// css and js
+define('EMS_PLUGIN_URL', plugin_dir_url(__FILE__));
+
 class Wp_Employee_Management_System {
     public function __construct() {
         add_action('init', array( $this,'init') );
+
     }
+
 
     /**
      * 
@@ -24,7 +32,41 @@ class Wp_Employee_Management_System {
      */
     public function init() {
         add_action('admin_menu', array( $this, 'ra_wp_admin_menu' ));
+        // add_action('admin_enqueue_scripts', array( $this, 'enqueue_admin_scripts' ));
+        add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_scripts'));
     }
+
+    
+    /**
+     * Enqueue admin styles and scripts
+     */
+    public function enqueue_admin_scripts($hook) {
+        // Define the base URL for the plugin
+        $plugin_url = plugin_dir_url(__FILE__);
+    
+        // Enqueue Bootstrap CSS from the plugin's folder
+        wp_enqueue_style('bootstrap-css', $plugin_url . 'css/bootstrap.min.css');
+    
+        // Enqueue DataTables CSS from the plugin's folder
+        wp_enqueue_style('datatables-css', $plugin_url . 'css/dataTables.dataTables.min.css');
+    
+        // Enqueue WordPress's default jQuery
+        wp_enqueue_script('jquery');
+    
+        // Enqueue Bootstrap JS from the plugin's folder, making sure jQuery is a dependency
+        wp_enqueue_script('bootstrap-js', $plugin_url . 'js/bootstrap.min.js', ['jquery'], null, true);
+    
+        // Enqueue DataTables JS from the plugin's folder, making sure jQuery is a dependency
+        wp_enqueue_script('datatables-js', $plugin_url . 'js/dataTables.min.js', ['jquery'], null, true);
+    
+        // Add inline script to initialize DataTables on the specific admin page
+        // if ( 'toplevel_page_employee-system' === $hook || 'employee-system_page_list-employee' === $hook ) {
+        //     wp_add_inline_script('datatables-js', 'jQuery(document).ready(function($) { $("#tbl-employee").DataTable(); });');
+        // }
+    }
+    
+
+
 
     
     /**
@@ -63,10 +105,6 @@ class Wp_Employee_Management_System {
         );
 
     }
-
-    
-
-    
 
     
 
