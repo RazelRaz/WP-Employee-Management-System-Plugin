@@ -1,6 +1,6 @@
 <?php
 /*
- * Plugin Name:       cd
+ * Plugin Name:       WP CRUD Employee Management System
  * Description:       This is a WordPress CRUD Employee Management System
  * Version:           1.0.0
  * Requires at least: 5.2
@@ -16,13 +16,13 @@ if ( ! defined('ABSPATH') ) {
 // http://wpplugin.test/wp-content/plugins/wp-employee-management-system/
 // echo plugin_dir_url(__FILE__);
 
-// css and js
+// returning plugin path
 define('EMS_PLUGIN_URL', plugin_dir_url(__FILE__));
+
 
 class Wp_Employee_Management_System {
     public function __construct() {
         add_action('init', array( $this,'init') );
-
     }
 
 
@@ -34,6 +34,8 @@ class Wp_Employee_Management_System {
         add_action('admin_menu', array( $this, 'ra_wp_admin_menu' ));
         // add_action('admin_enqueue_scripts', array( $this, 'enqueue_admin_scripts' ));
         add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_scripts'));
+        
+        
     }
 
     
@@ -127,6 +129,37 @@ class Wp_Employee_Management_System {
         require_once __DIR__ ."/pages/list-employee.php";
     }
 
+    
+    
+
 }
 
+
+
 new Wp_Employee_Management_System();
+
+
+
+// dynamic table creation during plugin activation
+function ems_create_table() {
+    global $wpdb;
+    $table_prefix = $wpdb->prefix; //return value will be: wp_
+    $sql = "
+        CREATE TABLE {$table_prefix}ems_system (
+            `id` INT(10) NOT NULL AUTO_INCREMENT,
+            `name` VARCHAR(120) NULL DEFAULT NULL,
+            `email` VARCHAR(80) NULL DEFAULT NULL,
+            `phoneNo` VARCHAR(50) NULL DEFAULT NULL,
+            `gender` ENUM('Male','Female','Other') NULL DEFAULT NULL,
+            `designation` VARCHAR(50) NULL DEFAULT NULL,
+            PRIMARY KEY (`id`) USING BTREE
+        )
+        ENGINE=InnoDB
+        ;
+    ";
+
+    include_once ABSPATH. "wp-admin/includes/upgrade.php";
+    dbDelta($sql);
+}
+
+register_activation_hook(__FILE__, 'ems_create_table');
