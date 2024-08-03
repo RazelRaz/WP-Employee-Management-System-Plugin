@@ -141,6 +141,7 @@ new Wp_Employee_Management_System();
 
 
 // dynamic table creation during plugin activation
+register_activation_hook(__FILE__, 'ems_create_table');
 function ems_create_table() {
     global $wpdb;
     $table_prefix = $wpdb->prefix; //return value will be: wp_
@@ -162,4 +163,12 @@ function ems_create_table() {
     dbDelta($sql);
 }
 
-register_activation_hook(__FILE__, 'ems_create_table');
+// plugin deactivation
+register_deactivation_hook(__FILE__, 'ems_drop_table');
+function ems_drop_table() {
+    global $wpdb;
+    $table_prefix = $wpdb->prefix;
+    $sql = "DROP TABLE IF EXISTS {$table_prefix}ems_system"; // {$table_prefix}ems_system
+    $wpdb->query($sql);
+}
+
