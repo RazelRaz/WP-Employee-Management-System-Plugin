@@ -20,12 +20,14 @@ if ( ! defined('ABSPATH') ) {
 define('EMS_PLUGIN_URL', plugin_dir_url(__FILE__));
 
 
+
 class Wp_Employee_Management_System {
+
     public function __construct() {
         add_action('init', array( $this,'init') );
     }
 
-
+    
     /**
      * 
      *  admin menu
@@ -131,6 +133,11 @@ class Wp_Employee_Management_System {
     public function ems_list_employee() {
         require_once __DIR__ ."/pages/list-employee.php";
     }
+
+
+    // public function table_activation_mange() {
+    //     require_once __DIR__ ."/pages/table-manage.php";
+    // }
 
     
 }
