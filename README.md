@@ -73,3 +73,22 @@ function ems_create_table() {
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
     dbDelta($sql);
 }
+
+
+
+Database CRUD Operations
+Add Employee:
+Uses wpdb->insert to add new employee records.
+
+Update Employee:
+Uses wpdb->update to edit employee information.
+
+Delete Employee:
+Uses wpdb->delete to remove employee records from the database.
+
+License
+This plugin is open-sourced under the MIT License.
+
+Author
+Razel Ahmed
+razelahmed.com
