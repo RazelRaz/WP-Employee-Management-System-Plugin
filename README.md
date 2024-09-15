@@ -52,3 +52,24 @@ class Wp_Employee_Management_System {
         require_once __DIR__ . "/pages/add-employee.php";
     }
 }
+
+## Custom Table Creation
+
+The following code creates a custom database table when the plugin is activated:
+
+```php
+register_activation_hook(__FILE__, 'ems_create_table');
+function ems_create_table() {
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'ems_system';
+    $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+        id INT(10) NOT NULL AUTO_INCREMENT,
+        name VARCHAR(120) NOT NULL,
+        email VARCHAR(80) NOT NULL,
+        phoneNo VARCHAR(50) NOT NULL,
+        gender ENUM('Male', 'Female', 'Other') NOT NULL,
+        designation VARCHAR(50) NOT NULL,
+        PRIMARY KEY (id)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+    dbDelta($sql);
+}
