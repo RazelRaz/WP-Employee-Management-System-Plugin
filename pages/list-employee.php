@@ -1,9 +1,9 @@
 <?php 
   global $wpdb;
   $employees = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}ems_system", ARRAY_A );
-  echo '<pre>';
-  print_r($employees);
-  echo '</pre>';
+  // echo '<pre>';
+  // print_r($employees);
+  // echo '</pre>';
 ?>
 
 <div class="container">
